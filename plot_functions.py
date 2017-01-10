@@ -42,29 +42,36 @@ def get_lims(ax):
     Arguments:
     ax - matplotlib ax object
     """
-    y_ax_ticks = ax.get_yticks().tolist()
-    y_ax_value = y_ax_ticks[1]-y_ax_ticks[0]
-    min_val = ax.yaxis.get_data_interval()[0]
+    y_ax_ticks = ax.get_yticks().tolist() #tuple of y axis limits
+    y_ax_value = y_ax_ticks[1]-y_ax_ticks[0] #value of an interval of the y axis
+    min_val = ax.yaxis.get_data_interval()[0]  
     max_val = ax.yaxis.get_data_interval()[1]
     
-    ymin_new = min_val - y_ax_value/2.
+    #create new limits to maintain constant "space" for all charts
+    ymin_new = min_val - y_ax_value/2. 
     ymax_new = max_val + y_ax_value/2. 
     
     return ymin_new, ymax_new
     
-def align_lbls(data, lbl_date):
+def align_lbls(data, extr_date):
     """returns horizontal offset value for minimum and maximum labels
 
     Arguments:
     data - pd series frame with stock prices
-    lbl - label
+    extr_date - date (timestamp) of max or min price
     """
+    
+    #derive x axis limits from dataframe
     start_date = data.index[0].date()
     end_date = data.index[len(data)-1].date()
-    lbl_date = lbl_date.date()
-    lbl_len = len(str(round(data.loc[lbl_date],1)))
+    #get date of max or min price and the length of label
+    date_extr = extr_date.date()
+    lbl_len = len(str(round(data.loc[date_extr],1)))
 
-    if (lbl_date - start_date).days <= 12:
+    #offset label if it is too close to one of the axis:
+    #it takes into account to which side of x axis the label is too close
+    #and the label's length
+    if (date_extr - start_date).days <= 12:
         if lbl_len == 3:
             offset_val = 10
         elif lbl_len == 4:
@@ -73,7 +80,7 @@ def align_lbls(data, lbl_date):
             offset_val = 20
         else:
             offset_val = 25
-    elif (end_date - lbl_date).days <= 12:
+    elif (end_date - date_extr).days <= 12:
         if lbl_len == 3:
             offset_val = -10
         elif lbl_len == 4:
@@ -84,5 +91,6 @@ def align_lbls(data, lbl_date):
             offset_val = -25
     else:
         offset_val = 0
+        
     return offset_val
     
