@@ -11,7 +11,7 @@ import datetime
 
 
 def plt_data(ticker):
-    """returns pd series obkect, its start and end dates.
+    """returns pd series object, its start and end dates.
 
     Arguments:
     ticker -- the ticker of the stock
