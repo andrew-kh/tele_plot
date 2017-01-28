@@ -32,9 +32,9 @@ def plot_LTM(ticker):
     
     #create plot and add time series
     fig, ax = plt.subplots()
-    ax.plot(plotdata.index, plotdata, lw = 2, marker = 'o', markevery = [max_num, min_num]) #plot stock price
-    ax.axhline(max_price, color="#2B0756", linestyle='--', lw = 1.2) #max dotted line
-    ax.axhline(min_price, color="#2B0756", linestyle='--', lw = 1.2) #min dotted line
+    ax.plot(plotdata.index, plotdata, lw = 2, marker = 'o', markevery = [max_num, min_num], zorder = 3) #plot stock price
+    ax.axhline(max_price, color="#2B0756", linestyle='--', lw = 1.2, zorder = 1) #max dotted line
+    ax.axhline(min_price, color="#2B0756", linestyle='--', lw = 1.2, zorder = 1) #min dotted line
     
     #format plot
     # ax.xaxis.set_major_locator(months)
