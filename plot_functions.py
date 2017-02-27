@@ -1,3 +1,11 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Feb 27 20:03:33 2017
+
+@author: andrew
+"""
+
 # -*- coding: utf-8 -*-
 """
 Created on Tue Dec 13 22:23:40 2016
@@ -8,7 +16,8 @@ Created on Tue Dec 13 22:23:40 2016
 from pandas_datareader import data
 from dateutil.relativedelta import relativedelta
 import datetime
-
+from config import tickers
+import pandas as pd
 
 def plt_data(ticker):
     """returns pd series object, its start and end dates.
@@ -93,4 +102,63 @@ def align_lbls(data, extr_date):
         offset_val = 0
         
     return offset_val
+
+        
+def getcompany(ticker):
+    """Returns the full name of the company 
+    that corresponds with the provided ticker
+    Args:
+        ticker(string): initial query from bot
+    """
+
     
+    #create pandas object
+    ref = pd.read_csv(tickers, sep = ";", header = 0)
+    
+    #get company name
+    try:
+        company = ref.loc[ref['Ticker'] == ticker]
+        company_n = company['Name']
+        companyname = company_n.iloc[0]
+    except:
+        companyname = ticker
+    return companyname
+
+def getcurrency(ticker):
+    """Returns currency in which the symbol is traded 
+    Args:
+        ticker(string): initial query from bot
+    """
+
+    
+    #create pandas object
+    ref = pd.read_csv(tickers, sep = ";", header = 0)
+    
+    #get currency
+    try:
+        currency = ref.loc[ref['Ticker'] == ticker]
+        currency_n = currency['Currency']
+        currency_n = ', ' + currency_n.iloc[0]
+    except:
+        currency_n = ''
+    return currency_n
+
+def checkticker(ticker):
+    """Checks if ticker exists in db.  
+    Args:
+        ticker(string): initial query from bot
+    """
+
+    #used in bot module
+    
+    #create pandas object
+    ref = pd.read_csv(tickers, sep = ";", header = 0)
+    
+    #check if df is not empty
+    check = ref.loc[ref['Ticker'] == ticker]
+    if check.empty:
+        bCheck = False 
+    else:
+       bCheck = True
+
+    return bCheck

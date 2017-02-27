@@ -1,6 +1,7 @@
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jan  9 21:51:24 2017
+Created on Mon Feb 27 19:56:02 2017
 
 @author: andrew
 """
@@ -10,11 +11,11 @@ import matplotlib.style
 matplotlib.style.use('ggplot')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from plot_functions import plt_data, data_extr, get_lims, align_lbls
+from plot_functions import plt_data, data_extr, get_lims, align_lbls, getcompany, getcurrency
 
 def plot_LTM(ticker):
     
-    """created a plot for the specified ticker (last 12 months of data from yahoo)
+    """creates a plot for the specified ticker (last 12 months of data from yahoo)
     
     Arguments:
     ticker -- the ticker of the stock
@@ -32,12 +33,13 @@ def plot_LTM(ticker):
     
     #create plot and add time series
     fig, ax = plt.subplots()
+    fig.set_size_inches(8.33,6.25)
+    
     ax.plot(plotdata.index, plotdata, lw = 2, marker = 'o', markevery = [max_num, min_num], zorder = 3) #plot stock price
     ax.axhline(max_price, color="#2B0756", linestyle='--', lw = 1.2, zorder = 1) #max dotted line
     ax.axhline(min_price, color="#2B0756", linestyle='--', lw = 1.2, zorder = 1) #min dotted line
     
     #format plot
-    # ax.xaxis.set_major_locator(months)
     ax.xaxis.set_major_formatter(ax_major_fmt)
     ax.yaxis.set_ticks_position('left')
     ax.xaxis.set_ticks_position('bottom')
@@ -58,9 +60,12 @@ def plot_LTM(ticker):
     datemax = e_date #can be killed
     ax.set_xlim(datemin, datemax) #can be killed
     
+    c_name = getcompany(ticker)
+               
     fig.autofmt_xdate(rotation = 30) 
-    fig.suptitle(ticker)
+    fig.suptitle(c_name)
     
-    plt.ylabel('Share Price')
+    c_currency = getcurrency(ticker)
     
+    plt.ylabel('Share Price'+c_currency)
     plt.show()
