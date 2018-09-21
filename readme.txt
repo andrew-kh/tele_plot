@@ -3,7 +3,7 @@ This project is a part of my telegram bot that creates a stock plot for the last
 
 The project consists of 4 files:
 
-1) plot_main.py - function that creates the plot that is lated sent by the bot (just replace plt.show() with fig.savefig with dpi = 120).
+1) plot_main.py - function that creates the plot that is later sent by the bot (just replace plt.show() with fig.savefig with dpi = 120).
 
 2) plot_functions.py - a set of support functions that generate data and format the plot: adjust Y axis, offset minimum and maximum labels. Company and currency lookup by ticker is also performed by these functions.
 
